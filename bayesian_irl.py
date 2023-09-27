@@ -48,7 +48,14 @@ class BIRL:
             # Note that q_values[s][a] will give you the Q-value of taking action a in state s
             # and q_values[s] will give you a vector of the Q-values for state s, one Q-value per action.
             ###################   
-            pass
+            # Calculate the log-likelihood of taking action a in state s
+            log_likelihood_a_in_s = self.beta * q_values[s][a]
+        
+            # Calculate the logsumexp of all Q-values for state s
+            log_partition_function = logsumexp(self.beta * np.array(q_values[s]))
+            
+            # Add the log-likelihood of the current demonstration to the total log-likelihood
+            log_sum += log_likelihood_a_in_s - log_partition_function
         return log_sum
         
 
